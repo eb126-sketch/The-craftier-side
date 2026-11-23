@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Craft Corner</title>
+<style>
+:root{--ink:#51485b;--muted:#81778b;--pink:#f5cbd8;--rose:#b96886;--lav:#e7def7;--mint:#dcefe5;--cream:#fffaf5;--line:#eee5e9;--white:#fff;--shadow:0 12px 35px rgba(89,67,87,.08)}
+*{box-sizing:border-box}body{margin:0;background:#fffaf8;color:var(--ink);font-family:ui-rounded,"Trebuchet MS",system-ui,sans-serif}button,input,select,textarea{font:inherit}button{cursor:pointer;border:0}
+.topbar{position:sticky;top:0;z-index:5;background:rgba(255,250,248,.94);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.topinner{max-width:1180px;margin:auto;padding:14px 22px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:900;font-size:21px;letter-spacing:-.5px}.brandmark{width:39px;height:39px;border-radius:14px;background:linear-gradient(135deg,#f7d2df,#e7def7);display:grid;place-items:center;font-size:22px}
+.nav{display:flex;gap:6px;flex-wrap:wrap}.nav button{padding:10px 13px;border-radius:13px;background:transparent;color:var(--muted);font-weight:700;font-size:13px}.nav button.active,.nav button:hover{background:#f5eaf0;color:var(--rose)}
+.wrap{max-width:1180px;margin:0 auto;padding:30px 22px 70px}.page{display:none}.page.active{display:block}
+.eyebrow{text-transform:uppercase;letter-spacing:1.8px;font-size:11px;font-weight:900;color:var(--rose)}h1{font-size:clamp(30px,5vw,48px);line-height:1.08;letter-spacing:-1.7px;margin:9px 0 12px}h2{font-size:25px;letter-spacing:-.6px;margin:0 0 8px}h3{font-size:17px;margin:0 0 7px}.sub{color:var(--muted);line-height:1.65;max-width:650px}.hero{display:grid;grid-template-columns:1.25fr .75fr;gap:24px;align-items:center;background:linear-gradient(115deg,#fff0f3,#f3efff 58%,#edf8f1);border-radius:28px;padding:36px;overflow:hidden}.hero-art{min-height:210px;display:grid;place-items:center;font-size:100px;position:relative}.hero-art:before,.hero-art:after{content:"";position:absolute;border-radius:50%;background:#fff8;}.hero-art:before{width:180px;height:180px}.hero-art:after{width:120px;height:120px;background:#f9dce6}.hero-art span{z-index:1;filter:drop-shadow(0 8px 10px #987c8733)}
+.btn{padding:11px 17px;border-radius:13px;background:var(--rose);color:white;font-weight:800;box-shadow:0 5px 12px #b9688628}.btn:hover{filter:brightness(.97);transform:translateY(-1px)}.btn.secondary{background:#f5eaf0;color:var(--rose);box-shadow:none}.btn.soft{background:#eee8f7;color:#76658f;box-shadow:none}.btn.small{padding:8px 12px;font-size:12px}.actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:20px}
+.sectionhead{display:flex;justify-content:space-between;align-items:end;gap:15px;margin:32px 0 15px}.sectionhead p{margin:0;color:var(--muted);font-size:13px}
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}.card{background:white;border:1px solid var(--line);border-radius:20px;padding:18px;box-shadow:var(--shadow)}.tile{min-height:150px;background:linear-gradient(135deg,#fff3f5,#f5f0ff);border-radius:16px;display:grid;place-items:center;font-size:54px;margin-bottom:14px}.meta{display:flex;gap:7px;flex-wrap:wrap;margin:9px 0}.pill{font-size:11px;font-weight:800;padding:5px 9px;border-radius:99px;background:#f8edf1;color:#a65f7c}.pill.lav{background:#f0ebfa;color:#79699b}.pill.mint{background:#eaf5ee;color:#56836a}.muted{color:var(--muted);font-size:13px;line-height:1.55}.card .btn{margin-top:12px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:18px}.stat{background:#fff;border:1px solid var(--line);border-radius:16px;padding:15px}.stat strong{display:block;font-size:24px}.stat span{font-size:12px;color:var(--muted)}
+.progress{height:9px;border-radius:20px;background:#f2edf0;overflow:hidden;margin:10px 0}.progress i{display:block;height:100%;background:linear-gradient(90deg,#e9aabd,#b9a6e3);border-radius:20px}
+.notice{padding:13px 15px;border-radius:14px;background:#f2f7f2;color:#55745e;font-size:13px;line-height:1.5;margin:15px 0}
+.empty{padding:28px;text-align:center;background:#fff;border:1px dashed #e6d9df;border-radius:18px;color:var(--muted)}
+input,select,textarea{width:100%;padding:11px 12px;border:1px solid #e8dfe5;border-radius:12px;background:#fff;color:var(--ink);outline:none}input:focus,select:focus,textarea:focus{border-color:#d69bb1;box-shadow:0 0 0 3px #f8e8ef}label{display:block;font-size:13px;font-weight:800;margin:12px 0 6px}.formrow{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.modalback{position:fixed;inset:0;background:#30253888;z-index:10;display:none;align-items:center;justify-content:center;padding:18px}.modalback.show{display:flex}.modal{width:min(680px,100%);max-height:88vh;overflow:auto;background:#fffaf8;border-radius:24px;padding:24px;box-shadow:0 25px 80px #241b2b44}.modalhead{display:flex;justify-content:space-between;gap:15px;align-items:start}.close{background:#f2eaf0;border-radius:50%;width:34px;height:34px;font-size:19px;color:var(--ink)}
+.step{display:flex;gap:12px;padding:12px 0;border-bottom:1px solid var(--line);line-height:1.5}.step b{flex:0 0 28px;height:28px;border-radius:10px;background:#f3e7f0;display:grid;place-items:center;color:var(--rose)}
+.quizchoice{display:flex;gap:8px;flex-wrap:wrap}.quizchoice button{border:1px solid #eadfe6;background:white;padding:9px 12px;border-radius:12px;color:var(--muted);font-size:13px}.quizchoice button.selected{background:#f5e7ef;border-color:#d99ab2;color:#9b5270;font-weight:800}
+.quizblock{padding:15px 0;border-bottom:1px solid var(--line)}.quizblock p{font-size:14px;font-weight:800;margin:0 0 10px}
+.postimg{width:100%;height:190px;object-fit:cover;border-radius:14px;background:#f5edf1}.postactions{display:flex;gap:8px;align-items:center;margin-top:12px}.postactions button{background:#f7edf2;border-radius:10px;padding:8px 11px;color:#9b5a76;font-weight:800;font-size:12px}
+footer{text-align:center;color:#a399a4;font-size:12px;padding:20px}
+@media(max-width:800px){.hero{grid-template-columns:1fr;padding:25px}.hero-art{min-height:130px;font-size:75px}.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.topinner{align-items:flex-start;flex-direction:column}.nav{width:100%;overflow-x:auto;flex-wrap:nowrap}.nav button{white-space:nowrap}}
+@media(max-width:520px){.wrap{padding:22px 14px 55px}.grid{grid-template-columns:1fr}.stats{grid-template-columns:1fr 1fr 1fr}.hero{padding:22px}.formrow{grid-template-columns:1fr}}
+
+.auth-screen{position:fixed;inset:0;z-index:20;display:none;overflow:auto;background:linear-gradient(135deg,#fff6f7,#f2edff 58%,#eff8f1);padding:22px}
+.auth-screen.show{display:grid;place-items:center}
+.auth-shell{width:min(980px,100%);min-height:570px;display:grid;grid-template-columns:1fr 1fr;background:#fff;border:1px solid #eee3e9;border-radius:30px;overflow:hidden;box-shadow:0 25px 70px #69516a1c}
+.auth-art{padding:38px;background:linear-gradient(145deg,#f7dce5,#eee6fb 65%,#e5f3e9);display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden}
+.auth-art:before,.auth-art:after{content:"";position:absolute;border-radius:50%;background:#ffffff66}.auth-art:before{width:270px;height:270px;right:-75px;top:80px}.auth-art:after{width:190px;height:190px;left:-65px;bottom:35px}
+.auth-brand{font-weight:900;font-size:22px;position:relative;z-index:1}.auth-illustration{font-size:105px;text-align:center;position:relative;z-index:1;filter:drop-shadow(0 12px 12px #896c8730)}.auth-tagline{position:relative;z-index:1}.auth-tagline h1{font-size:38px}.auth-panel{padding:42px;display:flex;flex-direction:column;justify-content:center}.auth-tabs{display:flex;gap:7px;background:#f7f1f4;padding:5px;border-radius:13px;margin:20px 0}.auth-tabs button{flex:1;padding:10px;border-radius:10px;background:transparent;color:#81778b;font-weight:800}.auth-tabs button.active{background:white;color:#a65f7c;box-shadow:0 2px 8px #5b43551a}.auth-panel .btn{width:100%;margin-top:18px}.auth-note{font-size:11px;color:#948997;line-height:1.55;margin-top:16px}.auth-error{color:#a34e68;font-size:12px;min-height:18px;margin-top:8px}.auth-hidden{display:none!important}
+@media(max-width:720px){.auth-screen{padding:12px}.auth-shell{grid-template-columns:1fr;min-height:auto}.auth-art{padding:22px;min-height:190px}.auth-art .auth-illustration{font-size:60px}.auth-tagline h1{font-size:26px;margin:5px 0}.auth-tagline p{display:none}.auth-panel{padding:25px}.auth-brand{font-size:18px}}
+
+</style>
+</head>
+<body>
+
+<div class="auth-screen" id="authScreen">
+ <div class="auth-shell">
+  <div class="auth-art">
+   <div class="auth-brand">🧶 The Craft Corner</div>
+   <div class="auth-illustration">🧵🌷</div>
+   <div class="auth-tagline"><div class="eyebrow">Make · Learn · Share</div><h1>Your next creative chapter starts here.</h1><p class="muted">A cozy corner for curious makers and colorful ideas.</p></div>
+  </div>
+  <div class="auth-panel">
+   <div class="eyebrow">A little space for your creativity</div>
+   <h2 id="authHeading">Welcome back!</h2>
+   <p class="muted" id="authSubheading">Log in to visit your craft corner.</p>
+   <div class="auth-tabs"><button id="loginTab" class="active" onclick="setAuthMode('login')">Log in</button><button id="signupTab" onclick="setAuthMode('signup')">Create account</button></div>
+   <form id="authForm" onsubmit="event.preventDefault();demoAuthSubmit()">
+    <label for="authUsername">Username</label><input id="authUsername" maxlength="24" autocomplete="username" placeholder="Choose a username" required>
+    <label for="authPassword">Password</label><input id="authPassword" type="password" autocomplete="off" placeholder="Enter a demo password" required>
+    <div id="confirmWrap" class="auth-hidden"><label for="authConfirm">Confirm password</label><input id="authConfirm" type="password" autocomplete="off" placeholder="Type it again"></div>
+    <div class="auth-error" id="authError" aria-live="polite"></div>
+    <button class="btn" id="authSubmit" type="submit">Log in</button>
+   </form>
+   <button id="forgotButton" class="btn secondary small" style="width:auto;align-self:flex-end;margin-top:10px" onclick="showForgot()">Forgot password?</button>
+   <p class="auth-note">Prototype preview: browse tutorials without an account. This screen does not create secure accounts. Passwords are checked only for this demo and are never saved. Don't enter a real password. Your demo profile stays on this device.</p>
+   <button class="btn secondary small" style="margin-top:12px" onclick="continueAsGuest()">Explore without an account</button>
+  </div>
+ </div>
+</div>
+
+<header class="topbar"><div class="topinner">
+  <div class="brand"><div class="brandmark">🧶</div><span>The Craft Corner</span></div>
+  <nav class="nav" aria-label="Main navigation">
+    <button class="active" data-page="home">⌂ Home</button><button data-page="learning">✿ My Learning</button><button data-page="tutorials">✂ Tutorials</button><button data-page="community">♡ Community</button><button data-page="profile">☺ My Profile</button>
+  </nav>
+  <button class="btn secondary small" onclick="openAuth()">Log in / Sign up</button>
+</div></header>
+<main class="wrap">
+<section id="home" class="page active">
+  <div class="hero"><div><div class="eyebrow">A little creativity goes a long way</div><h1>Make something<br>wonderful today. ✨</h1><p class="sub">Find your next favorite craft, learn one little step at a time, and share what you've made with a community of creative people.</p><div class="actions"><button class="btn" onclick="go('tutorials')">Explore tutorials</button><button class="btn secondary" onclick="openQuiz()">Personalize my corner</button></div></div><div class="hero-art"><span>🧵</span></div></div>
+  <div class="stats"><div class="stat"><strong id="homeProjects">0</strong><span>Projects completed</span></div><div class="stat"><strong id="homeSaved">0</strong><span>Saved tutorials</span></div><div class="stat"><strong id="homeBadges">0</strong><span>Badges earned</span></div></div>
+  <div class="sectionhead"><div><h2>Picked for your creative mood</h2><p>Recommendations update when you take the welcome quiz.</p></div><button class="btn secondary small" onclick="openQuiz()">Edit quiz</button></div>
+  <div id="homeRecs" class="grid"></div>
+  <div class="sectionhead"><div><h2>Explore the craft shelves</h2><p>A little something for every kind of maker.</p></div></div>
+  <div class="grid" id="categoryGrid"></div>
+</section>
+<section id="learning" class="page">
+  <div class="eyebrow">Your creative journey</div><h1>My Learning 🌷</h1><p class="sub">Keep track of what you're practicing, what you've finished, and what you'd like to try next.</p>
+  <div class="sectionhead"><div><h2>Your skill garden</h2><p>Your quiz answers appear here.</p></div><button class="btn secondary small" onclick="openQuiz()">Update skills</button></div>
+  <div id="skillsPanel" class="grid"></div>
+  <div class="sectionhead"><div><h2>Saved tutorials</h2><p>Little ideas to come back to later.</p></div></div><div id="savedPanel" class="grid"></div>
+  <div class="sectionhead"><div><h2>Completed projects</h2><p>Every finished project counts!</p></div></div><div id="completedPanel"></div>
+</section>
+<section id="tutorials" class="page">
+  <div class="eyebrow">Learn at your own pace</div><h1>Craft tutorials ✂️</h1><p class="sub">Choose a project, gather your supplies, and follow the steps. You can save tutorials to your learning page.</p>
+  <div class="formrow" style="max-width:620px;margin:20px 0"><div><label for="searchTutorial">Search projects</label><input id="searchTutorial" placeholder="Try bracelets, painting..." oninput="renderTutorials()"></div><div><label for="filterCategory">Craft category</label><select id="filterCategory" onchange="renderTutorials()"><option value="All">All categories</option></select></div></div>
+  <div class="grid" id="tutorialGrid"></div>
+</section>
+<section id="community" class="page">
+  <div class="eyebrow">Made by the community</div><h1>Community wall 💗</h1><p class="sub">A friendly little gallery for sharing finished crafts and cheering each other on.</p>
+  <div class="card" style="margin:20px 0"><h2>Share something you made</h2><p class="muted">This demo keeps posts on this device only. Only upload pictures you have permission to share.</p>
+    <div class="formrow"><div><label for="postTitle">Project title</label><input id="postTitle" maxlength="60" placeholder="My colorful bracelet"></div><div><label for="postCategory">Category</label><select id="postCategory"></select></div></div>
+    <label for="postDescription">A little about it</label><textarea id="postDescription" rows="2" maxlength="240" placeholder="What did you enjoy making?"></textarea>
+    <label for="postPhoto">Add a picture (optional)</label><input id="postPhoto" type="file" accept="image/*">
+    <button class="btn" style="margin-top:14px" onclick="addPost()">Share project</button><span id="postMessage" class="muted" style="margin-left:10px"></span>
+  </div>
+  <div class="sectionhead"><div><h2>Fresh from the craft table</h2><p>Local demo posts from this browser.</p></div></div><div class="grid" id="postGrid"></div>
+</section>
+<section id="profile" class="page">
+  <div class="eyebrow">Your maker space</div><h1>My Profile ☺</h1>
+  <div class="card" style="max-width:700px;margin:20px 0"><div style="display:flex;gap:15px;align-items:center"><div id="avatar" style="width:70px;height:70px;border-radius:23px;background:#f4e6f0;display:grid;place-items:center;font-size:37px">🌼</div><div><h2 id="profileName">Maker</h2><p class="muted">A creative person, one project at a time.</p></div></div>
+    <label for="username">Your display name</label><input id="username" maxlength="24" placeholder="Choose a nickname"><button class="btn small" style="margin-top:10px" onclick="saveProfile()">Save name</button>
+    <div class="notice">This is a local demo profile, not a real account. Your name and activity are stored only in this browser on this device.</div>
+  </div>
+  <div class="sectionhead"><div><h2>Your maker stats</h2><p>Your creative milestones.</p></div></div><div class="stats"><div class="stat"><strong id="profilePosts">0</strong><span>Projects shared</span></div><div class="stat"><strong id="profileLikes">0</strong><span>Likes received</span></div><div class="stat"><strong id="profileCompleted">0</strong><span>Projects completed</span></div></div>
+  <div class="sectionhead"><div><h2>Achievement shelf</h2><p>Badges you earn as you explore.</p></div></div><div id="badgePanel" class="grid"></div>
+</section>
+<footer>The Craft Corner · Make, learn, share, repeat ♡</footer>
+</main>
+<div class="modalback" id="quizModal"><div class="modal"><div class="modalhead"><div><div class="eyebrow">A few quick questions</div><h2>Let's personalize your corner! 🌸</h2><p class="muted">Choose the skill level that feels right for you. You can skip or change this anytime.</p></div><button class="close" onclick="closeQuiz()">×</button></div><div id="quizContent"></div><div class="actions"><button class="btn" onclick="saveQuiz()">Save my answers</button><button class="btn secondary" onclick="skipQuiz()">Skip for now</button></div></div></div>
+<div class="modalback" id="tutorialModal"><div class="modal"><div class="modalhead"><div id="tutorialModalHead"></div><button class="close" onclick="closeTutorial()">×</button></div><div id="tutorialModalBody"></div></div></div>
+<script>
+const categories=[
+ {name:"Beading & jewelry",emoji:"📿",color:"lav",skills:["Bracelet making","Bead patterns","Jewelry finishing"]},
+ {name:"Paper crafts",emoji:"💌",color:"pink",skills:["Origami","Paper flowers","Scrapbooking"]},
+ {name:"Painting & drawing",emoji:"🎨",color:"lav",skills:["Watercolor","Acrylic painting","Sketching"]},
+ {name:"Clay & sculpting",emoji:"🪴",color:"mint",skills:["Air-dry clay","Miniature sculpting","Clay painting"]},
+ {name:"Sewing & yarn",emoji:"🧶",color:"pink",skills:["Crochet","Hand sewing","Embroidery"]},
+ {name:"Room decor & upcycling",emoji:"🪞",color:"mint",skills:["Room decor","Recycling crafts","DIY organization"]}
+];
+const tutorials=[
+ {id:"bracelet",title:"A colorful bead bracelet",cat:"Beading & jewelry",level:"Beginner",time:"20 min",emoji:"📿",desc:"Make a cheerful bracelet with a repeating color pattern.",materials:["Stretch cord","Assorted beads","Scissors","A small piece of tape"],steps:["Choose 3–4 bead colors and arrange a pattern on the table.","Cut a length of stretch cord with extra room for tying.","Tape one end of the cord to the table so beads don't slide off.","Add beads in your chosen pattern until the bracelet fits comfortably.","Ask an adult to help check the fit and tie a secure knot. Trim the extra cord carefully."]},
+ {id:"flowers",title:"Folded paper flowers",cat:"Paper crafts",level:"Beginner",time:"25 min",emoji:"🌼",desc:"Turn colorful paper into a sweet flower decoration.",materials:["Colored paper","Scissors","Glue stick","Pencil"],steps:["Cut paper into equal squares.","Fold each square diagonally, then fold the triangle in half again.","Draw a simple petal curve and cut along the line.","Open the paper gently to reveal a flower shape.","Layer two flowers, glue the centers, and add a paper circle in the middle."]},
+ {id:"watercolor",title:"Watercolor sunset postcard",cat:"Painting & drawing",level:"Beginner",time:"30 min",emoji:"🌅",desc:"Practice soft color blending while making a mini postcard.",materials:["Watercolor paper","Watercolor paints","Water cup","Paintbrush"],steps:["Lightly mark a horizon line across your paper.","Wet the sky area with a clean brush, avoiding puddles.","Add warm colors near the horizon and blend outward with clean water.","Let the sky dry, then paint a simple dark silhouette along the horizon.","Allow the postcard to dry fully before writing a note on the back."]},
+ {id:"clay",title:"Tiny air-dry clay trinket dish",cat:"Clay & sculpting",level:"Beginner",time:"35 min + drying",emoji:"🍓",desc:"Shape a small dish for rings, beads, or little treasures.",materials:["Air-dry clay","Reusable work mat","Small bowl","A little water"],steps:["Cover your table and knead a small piece of clay until soft.","Roll it into a ball, then flatten it into a thick circle.","Gently press the center into a shallow dish shape.","Smooth the edges with slightly damp fingers and add simple texture if you like.","Let it dry according to the clay package directions before decorating."]},
+ {id:"bookmark",title:"No-sew felt bookmark",cat:"Sewing & yarn",level:"Beginner",time:"20 min",emoji:"📚",desc:"Create a cute felt bookmark without sewing.",materials:["Felt sheets","Craft glue","Scissors","Ribbon (optional)"],steps:["Cut two matching bookmark shapes from felt.","Cut a small heart or star from a second felt color.","Glue the decoration onto the front piece.","Glue the two bookmark layers together around the edges, leaving the top open if adding ribbon.","Let the glue dry completely before using it."]},
+ {id:"jar",title:"Upcycled pencil cup",cat:"Room decor & upcycling",level:"Beginner",time:"25 min",emoji:"✏️",desc:"Give a clean empty container a colorful new purpose.",materials:["Clean empty container","Paper or paint","Glue","Ribbon or stickers"],steps:["Choose a clean, dry container with smooth edges.","Measure paper to wrap around it, or decorate the outside with suitable paint.","Attach the paper with glue and smooth out bubbles.","Add ribbon, stickers, or a label to make it your own.","Let everything dry before adding pencils or brushes."]}
+];
+let state={username:"Maker",quiz:{},saved:[],completed:[],posts:[],following:[],quizDone:false};
+const KEY="craftCornerDemo_v1";
+function load(){try{const s=JSON.parse(localStorage.getItem(KEY));if(s)state={...state,...s}}catch(e){}}
+function persist(){try{localStorage.setItem(KEY,JSON.stringify(state))}catch(e){alert("Your browser storage is full. Try removing a large photo post.")}}
+function go(page){document.querySelectorAll(".page").forEach(p=>p.classList.toggle("active",p.id===page));document.querySelectorAll(".nav button").forEach(b=>b.classList.toggle("active",b.dataset.page===page));window.scrollTo({top:0,behavior:"smooth"});renderAll()}
+document.querySelectorAll(".nav button").forEach(b=>b.addEventListener("click",()=>go(b.dataset.page)));
+function categoryOptions(){return categories.map(c=>`<option>${c.name}</option>`).join("")}
+function tutorialCard(t){const saved=state.saved.includes(t.id);return `<article class="card"><div class="tile">${t.emoji}</div><h3>${t.title}</h3><div class="meta"><span class="pill">${t.level}</span><span class="pill lav">${t.cat}</span><span class="pill mint">${t.time}</span></div><p class="muted">${t.desc}</p><button class="btn small" onclick="openTutorial('${t.id}')">View tutorial</button> <button class="btn secondary small" onclick="toggleSave('${t.id}')">${saved?"♥ Saved":"♡ Save"}</button></article>`}
+function renderTutorials(){const q=(document.getElementById("searchTutorial")?.value||"").toLowerCase(),cat=document.getElementById("filterCategory")?.value||"All";const list=tutorials.filter(t=>(cat==="All"||t.cat===cat)&&(t.title+" "+t.cat+" "+t.desc).toLowerCase().includes(q));document.getElementById("tutorialGrid").innerHTML=list.length?list.map(tutorialCard).join(""):'<div class="empty">No projects found. Try another search.</div>'}
+function renderHome(){document.getElementById("homeProjects").textContent=state.completed.length;document.getElementById("homeSaved").textContent=state.saved.length;document.getElementById("homeBadges").textContent=earnedBadges().length;let wanted=Object.entries(state.quiz).filter(([k,v])=>v==="Don't know yet"||v==="Still learning").map(([skill])=>categories.find(c=>c.skills.includes(skill))?.name).filter(Boolean);let recs=tutorials.filter(t=>wanted.includes(t.cat));if(!recs.length)recs=tutorials.slice(0,3);document.getElementById("homeRecs").innerHTML=recs.slice(0,3).map(tutorialCard).join("")}
+function renderCategories(){document.getElementById("categoryGrid").innerHTML=categories.map(c=>`<article class="card"><div class="tile">${c.emoji}</div><h3>${c.name}</h3><p class="muted">Explore ${c.skills.length} skills and creative ideas.</p><button class="btn secondary small" onclick="document.getElementById('filterCategory').value=${JSON.stringify(c.name)};go('tutorials');renderTutorials()">Explore category</button></article>`).join("")}
+function renderLearning(){let entries=Object.entries(state.quiz);document.getElementById("skillsPanel").innerHTML=entries.length?entries.map(([k,v])=>`<article class="card"><h3>${k}</h3><span class="pill ${v==="Pretty confident"?"mint":v==="Still learning"?"lav":""}">${v}</span><div class="progress"><i style="width:${v==="Pretty confident"?100:v==="Still learning"?55:8}%"></i></div><p class="muted">${v==="Pretty confident"?"A skill you're feeling good about!":v==="Still learning"?"Keep practicing — you're getting there.":"A new skill waiting to be explored."}</p></article>`).join(""):'<div class="empty">Take the welcome quiz to start your skill garden, or browse tutorials and find something fun.</div>';const saved=tutorials.filter(t=>state.saved.includes(t.id));document.getElementById("savedPanel").innerHTML=saved.length?saved.map(tutorialCard).join(""):'<div class="empty">No saved tutorials yet. Tap “Save” on a tutorial you like.</div>';const done=tutorials.filter(t=>state.completed.includes(t.id));document.getElementById("completedPanel").innerHTML=done.length?`<div class="grid">${done.map(t=>`<div class="card"><h3>${t.emoji} ${t.title}</h3><span class="pill mint">Completed ✓</span></div>`).join("")}</div>`:'<div class="empty">Your finished projects will show up here. Complete a tutorial to add your first one!</div>'}
+function openTutorial(id){const t=tutorials.find(x=>x.id===id);if(!t)return;document.getElementById("tutorialModalHead").innerHTML=`<div class="eyebrow">${t.cat} · ${t.level}</div><h2>${t.emoji} ${t.title}</h2><p class="muted">${t.desc}</p>`;document.getElementById("tutorialModalBody").innerHTML=`<h3 style="margin-top:20px">What you'll need</h3><ul>${t.materials.map(x=>`<li class="muted" style="margin:7px 0">${x}</li>`).join("")}</ul><h3 style="margin-top:20px">Let's make it!</h3>${t.steps.map((s,i)=>`<div class="step"><b>${i+1}</b><span>${s}</span></div>`).join("")}<div class="actions"><button class="btn" onclick="completeTutorial('${t.id}')">${state.completed.includes(t.id)?"Completed ✓":"Mark as completed"}</button><button class="btn secondary" onclick="toggleSave('${t.id}');openTutorial('${t.id}')">${state.saved.includes(t.id)?"♥ Saved":"♡ Save tutorial"}</button></div>`;document.getElementById("tutorialModal").classList.add("show")}
+function closeTutorial(){document.getElementById("tutorialModal").classList.remove("show")}
+function completeTutorial(id){if(!requireDemoAccount())return;if(!state.completed.includes(id))state.completed.push(id);persist();openTutorial(id);renderAll()}
+function toggleSave(id){if(!requireDemoAccount())return;state.saved=state.saved.includes(id)?state.saved.filter(x=>x!==id):[...state.saved,id];persist();renderAll()}
+function openQuiz(){const root=document.getElementById("quizContent");root.innerHTML=categories.map(c=>`<div class="quizblock"><p>${c.emoji} ${c.name}</p>${c.skills.map(skill=>`<div style="padding:8px 0"><p style="font-weight:700;margin:0 0 8px">${skill}</p><div class="quizchoice">${["Don't know yet","Still learning","Pretty confident"].map(v=>`<button data-skill="${skill}" data-value="${v}" class="${state.quiz[skill]===v?"selected":""}" onclick="chooseSkill(this)">${v}</button>`).join("")}</div></div>`).join("")}</div>`).join("");document.getElementById("quizModal").classList.add("show")}
+function chooseSkill(btn){const skill=btn.dataset.skill;document.querySelectorAll(`[data-skill="${skill}"]`).forEach(b=>b.classList.remove("selected"));btn.classList.add("selected");btn.dataset.value=btn.dataset.value}
+function saveQuiz(){const next={};document.querySelectorAll("#quizContent .quizchoice").forEach(group=>{const chosen=group.querySelector(".selected");if(chosen)next[chosen.dataset.skill]=chosen.dataset.value});state.quiz=next;state.quizDone=true;persist();closeQuiz();renderAll();go("home")}
+function skipQuiz(){state.quizDone=true;persist();closeQuiz()}
+function earnedBadges(){let b=[];if(state.completed.length>=1)b.push(["🌱","First steps","Completed your first tutorial"]);if(state.completed.length>=3)b.push(["🧵","Craft explorer","Completed 3 tutorials"]);if(state.saved.length>=3)b.push(["📌","Idea collector","Saved 3 tutorials"]);if(state.posts.length>=1)b.push(["💗","Community maker","Shared a project"]);return b}
+function renderPosts(){const posts=state.posts.slice().reverse();document.getElementById("postGrid").innerHTML=posts.length?posts.map(p=>`<article class="card">${p.image?`<img class="postimg" src="${p.image}" alt="Craft project photo">`:`<div class="tile">🎀</div>`}<h3>${escapeHtml(p.title)}</h3><div class="meta"><span class="pill">${escapeHtml(p.category)}</span></div><p class="muted">${escapeHtml(p.description||"A project shared from the craft table.")}</p><div class="postactions"><button onclick="likePost('${p.id}')">♡ ${p.likes||0} likes</button><span class="muted">by ${escapeHtml(p.author)}</span></div></article>`).join(""):'<div class="empty">No projects here yet. Be the first to share something you've made!</div>'}
+function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+function likePost(id){if(!requireDemoAccount())return;const p=state.posts.find(x=>x.id===id);if(p)p.likes=(p.likes||0)+1;persist();renderPosts();renderProfile()}
+async function addPost(){if(!requireDemoAccount())return;const title=document.getElementById("postTitle").value.trim();if(!title){document.getElementById("postMessage").textContent="Add a project title first.";return}const file=document.getElementById("postPhoto").files[0];let image="";if(file){if(!file.type.startsWith("image/")){alert("Please choose an image file.");return}image=await resizeImage(file)}state.posts.push({id:"p"+Date.now(),title,category:document.getElementById("postCategory").value,description:document.getElementById("postDescription").value.trim(),author:state.username,image,likes:0});persist();document.getElementById("postTitle").value="";document.getElementById("postDescription").value="";document.getElementById("postPhoto").value="";document.getElementById("postMessage").textContent="Shared on this device!";renderPosts();renderProfile()}
+function resizeImage(file){return new Promise((resolve,reject)=>{const reader=new FileReader();reader.onload=()=>{const img=new Image();img.onload=()=>{const scale=Math.min(1,700/Math.max(img.width,img.height));const canvas=document.createElement("canvas");canvas.width=Math.round(img.width*scale);canvas.height=Math.round(img.height*scale);canvas.getContext("2d").drawImage(img,0,0,canvas.width,canvas.height);resolve(canvas.toDataURL("image/jpeg",.65))};img.onerror=reject;img.src=reader.result};reader.onerror=reject;reader.readAsDataURL(file)})}
+function saveProfile(){if(!requireDemoAccount())return;const n=document.getElementById("username").value.trim();if(!n){alert("Please enter a display name.");return}state.username=n;state.posts.forEach(p=>{if(p.author==="Maker")p.author=n});persist();renderProfile();renderPosts()}
+function renderProfile(){document.getElementById("profileName").textContent=state.username;document.getElementById("username").value=state.username;document.getElementById("avatar").textContent=state.username.slice(0,1).toUpperCase()||"🌼";document.getElementById("profilePosts").textContent=state.posts.length;document.getElementById("profileLikes").textContent=state.posts.reduce((a,p)=>a+(p.likes||0),0);document.getElementById("profileCompleted").textContent=state.completed.length;const b=earnedBadges();document.getElementById("badgePanel").innerHTML=b.length?b.map(x=>`<div class="card"><div class="tile">${x[0]}</div><h3>${x[1]}</h3><p class="muted">${x[2]}</p></div>`).join(""):'<div class="empty">Your first badge is waiting! Finish a tutorial, save ideas, or share a project.</div>'}
+function renderAll(){renderHome();renderLearning();renderTutorials();renderPosts();renderProfile()}
+
+let authMode="login";
+let isDemoLoggedIn=false;
+function openAuth(){document.getElementById("authScreen").classList.add("show")}
+function requireDemoAccount(){if(isDemoLoggedIn)return true;openAuth();return false}
+function setAuthMode(mode){
+ authMode=mode;
+ const signup=mode==="signup";
+ document.getElementById("loginTab").classList.toggle("active",!signup);
+ document.getElementById("signupTab").classList.toggle("active",signup);
+ document.getElementById("authHeading").textContent=signup?"Create your account":"Welcome back!";
+ document.getElementById("authSubheading").textContent=signup?"Pick a username to start your creative space.":"Log in to visit your craft corner.";
+ document.getElementById("authSubmit").textContent=signup?"Create demo account":"Log in";
+ document.getElementById("confirmWrap").classList.toggle("auth-hidden",!signup);
+ document.getElementById("forgotButton").classList.toggle("auth-hidden",signup);
+ document.getElementById("authError").textContent="";
+}
+function demoAuthSubmit(){
+ const username=document.getElementById("authUsername").value.trim();
+ const password=document.getElementById("authPassword").value;
+ const confirm=document.getElementById("authConfirm").value;
+ const err=document.getElementById("authError");
+ if(username.length<2){err.textContent="Please use at least 2 characters for your username.";return}
+ if(password.length<4){err.textContent="For this demo, enter at least 4 characters. Don't use a real password.";return}
+ if(authMode==="signup"&&password!==confirm){err.textContent="Those demo passwords don't match yet.";return}
+ // Deliberately never store, hash, log, or compare passwords. This is a UI-only demo.
+ state.username=username;
+ isDemoLoggedIn=true;
+ persist();
+ document.getElementById("authScreen").classList.remove("show");
+ renderAll();
+}
+function continueAsGuest(){
+ isDemoLoggedIn=false;
+ document.getElementById("authScreen").classList.remove("show");
+}
+function showForgot(){
+ document.getElementById("authError").textContent="Password recovery needs a real secure account system. This demo doesn't save passwords, so there is nothing to recover.";
+}
+
+load();
+document.getElementById("filterCategory").innerHTML='<option value="All">All categories</option>'+categoryOptions();
+document.getElementById("postCategory").innerHTML=categoryOptions();
+renderCategories();renderAll();
+if(state.username && state.username!=="Maker") document.getElementById("authUsername").value=state.username;
+if(!state.quizDone && !sessionStorage.getItem("craftQuizDismissed")){setTimeout(()=>openQuiz(),500)}
+document.getElementById("quizModal").addEventListener("click",e=>{if(e.target.id==="quizModal"){closeQuiz();sessionStorage.setItem("craftQuizDismissed","1")}});
+</script>
+</body></html>
